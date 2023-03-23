@@ -11,14 +11,9 @@ class Queue extends Model
 
     protected $fillable = [
         'user_id',
-        'no',
+        'tel_no',
+        'queue_no',
         'status',
-        'start',
-        'end'
+        'duration',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

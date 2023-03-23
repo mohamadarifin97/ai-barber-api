@@ -46,9 +46,4 @@ class User extends Authenticatable
     {
         return '550559070';
     }
-
-    public function queue() 
-    {
-        return $this->hasMany(Queue::class);
-    }
 }

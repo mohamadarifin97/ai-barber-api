@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\QueueController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/get-queue', [UserController::class, 'getQueue']);
+Route::get('/get-queue', [QueueController::class, 'getQueue']);
 
 Route::controller(AuthController::class)->group(function(){
     Route::post('/admin/register', 'register');
@@ -25,6 +24,6 @@ Route::controller(AuthController::class)->group(function(){
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/admin/get-queue', [AdminController::class, 'getQueue']);
-    Route::post('/admin/next-queue', [AdminController::class, 'nextQueue']);
+    Route::get('/admin/get-queue-list', [QueueController::class, 'getQueueList']);
+    Route::post('/admin/next-queue', [QueueController::class, 'nextQueue']);
 });

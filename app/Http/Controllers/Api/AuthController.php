@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Controllers\API\BaseController;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
