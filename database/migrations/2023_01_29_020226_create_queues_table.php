@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('queues', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->string('no');
+            $table->text('tel_no');
+            $table->string('queue_no');
             $table->string('status')->default('WAITING'); //waiting, finish, cancel
-            $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
+            $table->timestamp('duration')->nullable();
             $table->timestamps();
         });
     }

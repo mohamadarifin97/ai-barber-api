@@ -42,12 +42,13 @@ class AdminController extends BaseController
 
     public function nextQueue(Request $request)
     {
-        info('here');
         DB::beginTransaction();
         try{ 
             $queue = Queue::where('id', $request->id);
             $no = $queue->first()->no;
             $queue->update(['status' => 'DONE']);
+
+            // send whatsapp to next queue
 
             $response = [
                 'status' => 'success',

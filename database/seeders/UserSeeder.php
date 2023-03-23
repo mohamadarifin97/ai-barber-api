@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Queue;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -42,12 +43,9 @@ class UserSeeder extends Seeder
         }
 
         for ($i = 1; $i <= 10; $i++) {
-            $user = User::create([
-                'name' => strval(rand(000000000000, 999999999999))
-            ]);
-
-            $user->queue()->create([
-                'no' => $i
+            Queue::create([
+                'tel_no' => strval(rand(000000000000, 999999999999)),
+                'queue_no' => sprintf("%03d", $i)
             ]);
         }
     }
