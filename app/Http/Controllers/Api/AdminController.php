@@ -19,7 +19,7 @@ class AdminController extends BaseController
             $queues = Queue::where('status', 'WAITING')
                             ->whereDate('created_at', Carbon::today())
                             ->limit(10)
-                            ->get(['id', 'no']);
+                            ->get(['id', 'tel_no', 'queue_no']);
             
             $response = [
                 'status' => 'success',
@@ -45,7 +45,7 @@ class AdminController extends BaseController
         DB::beginTransaction();
         try{ 
             $queue = Queue::where('id', $request->id);
-            $no = $queue->first()->no;
+            $no = $queue->first()->queue_no;
             $queue->update(['status' => 'DONE']);
 
             // send whatsapp to next queue

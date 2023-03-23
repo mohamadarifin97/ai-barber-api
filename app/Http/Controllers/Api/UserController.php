@@ -35,12 +35,10 @@ class UserController extends Controller
                 $new_queue = '001';
             }
 
-            // create user and queue
-            $user = User::create([
-                'name' => $request->tel_no
-            ]);
-            $user->queue()->create([
-                'no' => $new_queue,
+            // create queue
+            Queue::create([
+                'tel_no' => $request->tel_no,
+                'queue_no' => $new_queue,
                 'status' => 'WAITING'
             ]);
 
