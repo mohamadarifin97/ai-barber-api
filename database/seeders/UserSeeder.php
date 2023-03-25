@@ -42,11 +42,11 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        for ($i = 1; $i <= 10; $i++) {
-            Queue::create([
-                'tel_no' => strval(rand(000000000000, 999999999999)),
-                'queue_no' => sprintf("%03d", $i)
-            ]);
-        }
+        // for ($i = 1; $i <= 10; $i++) {
+        //     Queue::create([
+        //         'tel_no' => strval(rand(000000000000, 999999999999)),
+        //         'queue_no' => sprintf("%03d", $i)
+        //     ]);
+        // }
     }
 }
