@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('tel_no');
             $table->string('queue_no');
-            $table->string('status')->default('WAITING'); //waiting, finish, cancel
+            $table->string('status')->default('upcoming'); //upcoming, next, done
             $table->timestamp('duration')->nullable();
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ class QueueController extends BaseController
                             ->whereDate('created_at', Carbon::today())
                             ->limit(10)
                             ->get(['id', 'tel_no', 'queue_no']);
-            
+            // id, queue, status
             $response = [
                 'status' => 'success',
                 'data' => $queues
@@ -81,7 +81,7 @@ class QueueController extends BaseController
         try {
             $queue = Queue::orderBy('id', 'desc')
                             ->whereDate('created_at', Carbon::today())
-                            ->where('status', 'WAITING')
+                            ->where('status', 'next')
                             ->first();
             
             // generate queue no
