@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BaseController;
 use App\Models\Queue;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,7 @@ class QueueController extends BaseController
         try{
             $queue = Queue::where('id', $request->id);
             $no = $queue->first()->queue_no;
-            $queue->update(['status' => 'DONE']);
+            $queue->update(['status' => 'done']);
 
             // send whatsapp to next queue
 
@@ -87,7 +88,7 @@ class QueueController extends BaseController
     {
         $request->validate([
             'id' => 'required',
-            'status' => 'required'
+            'status' => 'required|in:done,current,next,upcoming'
         ]);
 
         DB::beginTransaction();
@@ -143,7 +144,7 @@ class QueueController extends BaseController
             Queue::create([
                 'tel_no' => $request->tel_no,
                 'queue_no' => $new_queue,
-                'status' => 'WAITING'
+                'status' => 'next'
             ]);
 
             // send whatsapp
