@@ -7,6 +7,7 @@ use App\Models\Queue;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Twilio\Rest\Client;
@@ -16,10 +17,21 @@ class QueueController extends BaseController
     public function getQueueList(Request $request)
     {
         try {
-            $queues = Queue::where('status', 'WAITING')
+            $queues = Queue::whereIn('status', ['upcoming', 'current', 'next'])
                             ->whereDate('created_at', Carbon::today())
                             ->limit(10)
-                            ->get(['id', 'tel_no', 'queue_no']);
+                            ->get(['id', 'tel_no', 'queue_no', 'status'])
+                            ->map(function ($queue) {
+                                return [
+                                    'id' => $queue->id,
+                                    'phone no' => $queue->tel_no,
+                                    'queue no' => $queue->queue_no,
+                                    'status' => $queue->status
+                                ];
+                            })
+                            ->groupBy('status')
+                            ->toArray();
+
             // id, queue, status
             $response = [
                 'status' => 'success',
