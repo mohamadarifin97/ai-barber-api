@@ -19,8 +19,9 @@ class AuthController extends BaseController
 
                 $response = [
                     'status' => 'success',
+                    'message' => 'Authorized',
                     'token' => $token,
-                    'message' => 'Authorised'
+                    'id' => Auth::user()->id,
                 ];
                 return response()->json($response);
 

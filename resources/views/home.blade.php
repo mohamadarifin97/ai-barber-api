@@ -64,7 +64,7 @@
             }
         });
         $.ajax({
-            url: APP_URL + '/api/admin/next-queue',
+            url: APP_URL + '/api/admin/queue-complete',
             type: 'POST',
             data: {id:id},
             success: function(response) {

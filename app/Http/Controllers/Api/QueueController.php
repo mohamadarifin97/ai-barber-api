@@ -40,7 +40,7 @@ class QueueController extends BaseController
         }
     }
 
-    public function nextQueue(Request $request)
+    public function queueComplete(Request $request)
     {
         DB::beginTransaction();
         try{ 
@@ -73,7 +73,6 @@ class QueueController extends BaseController
 
     public function getQueue(Request $request)
     {
-        info($request->tel_no);
         $request->validate([
             'tel_no' => 'required|digits_between:10,11'
         ]);
@@ -122,7 +121,7 @@ class QueueController extends BaseController
 
             $response = [
                 'status' => 'success',
-                'data' => $new_queue
+                'queue no' => $new_queue
             ];
 
             DB::commit();
