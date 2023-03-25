@@ -35,7 +35,7 @@ class AuthController extends BaseController
                 return response()->json($response);
             }
         } else { 
-            return response()->json(['message' => 'Unauthorised']);
+            return response()->json(['message' => 'Unauthorized']);
         } 
     }
 

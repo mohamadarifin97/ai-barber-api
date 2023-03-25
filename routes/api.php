@@ -26,4 +26,5 @@ Route::controller(AuthController::class)->group(function(){
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/get-queue-list', [QueueController::class, 'getQueueList']);
     Route::post('/admin/queue-complete', [QueueController::class, 'queueComplete']);
+    Route::post('/admin/update-status', [QueueController::class, 'updateStatus']);
 });

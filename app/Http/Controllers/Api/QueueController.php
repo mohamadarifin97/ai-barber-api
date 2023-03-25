@@ -25,7 +25,7 @@ class QueueController extends BaseController
                                 return [
                                     'id' => $queue->id,
                                     'phone no' => $queue->tel_no,
-                                    'queue no' => $queue->queue_no,
+                                    'queue' => $queue->queue_no,
                                     'status' => $queue->status
                                 ];
                             })
@@ -55,7 +55,7 @@ class QueueController extends BaseController
     public function queueComplete(Request $request)
     {
         DB::beginTransaction();
-        try{ 
+        try{
             $queue = Queue::where('id', $request->id);
             $no = $queue->first()->queue_no;
             $queue->update(['status' => 'DONE']);
@@ -65,6 +65,42 @@ class QueueController extends BaseController
             $response = [
                 'status' => 'success',
                 'message' => "No. giliran $no selesai!"
+            ];
+
+            DB::commit();
+            return response()->json($response);
+
+        } catch (Exception $e) { 
+            DB::rollBack();
+            Log::error($e);
+
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+
+            return response()->json($response);
+        }
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required'
+        ]);
+
+        DB::beginTransaction();
+        try{
+            $queue = Queue::where('id', $request->id);
+            $no = $queue->first()->queue_no;
+            $queue->update(['status' => $request->status]);
+
+            // send whatsapp to next queue
+
+            $response = [
+                'status' => 'success',
+                'message' => "Kemaskini status no. giliran $no berjaya!"
             ];
 
             DB::commit();
@@ -133,7 +169,7 @@ class QueueController extends BaseController
 
             $response = [
                 'status' => 'success',
-                'queue no' => $new_queue
+                'queue' => $new_queue
             ];
 
             DB::commit();
