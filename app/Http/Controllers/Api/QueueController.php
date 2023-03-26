@@ -155,6 +155,8 @@ class QueueController extends BaseController
             $recipient = '+60103600383';
             $message = "Your turn is $new_queue";
 
+            // $message = 'Your appointment is coming up on July 21 at 3PM';
+
             $twilio = new Client($sid, $token);
             $message = $twilio->messages
             ->create("whatsapp:$recipient", // to
