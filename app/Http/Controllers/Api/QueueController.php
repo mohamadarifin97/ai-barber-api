@@ -33,10 +33,16 @@ class QueueController extends BaseController
                             ->groupBy('status')
                             ->toArray();
 
+            $data = [
+                'current' => array_key_exists('current', $queues) ? $queues['current'][0] : null,
+                'next' => array_key_exists('next', $queues) ? $queues['next'][0] : null,
+                'upcoming' => array_key_exists('upcoming', $queues) ? $queues['upcoming'] : null,
+            ];
+
             // id, queue, status
             $response = [
                 'status' => 'success',
-                'data' => $queues
+                'data' => $data
             ];
 
             return response()->json($response);
