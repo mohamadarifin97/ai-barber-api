@@ -18,7 +18,8 @@ class QueueSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
             Queue::create([
                 'tel_no' => strval(rand(000000000000, 999999999999)),
-                'queue_no' => sprintf("%03d", $i)
+                'queue_no' => sprintf("%03d", $i),
+                'status' => $i == 1 ? 'current' : ($i == 2 ? 'next' : 'upcoming')
             ]);
         }
     }
