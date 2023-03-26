@@ -132,7 +132,11 @@ class QueueController extends BaseController
                             ->whereDate('created_at', Carbon::today())
                             ->where('status', 'next')
                             ->first();
-            
+
+            $current_queue = Queue::whereDate('created_at', Carbon::today())
+                            ->where('status', 'current')
+                            ->first();
+                            
             // generate queue no
             if ($queue) {
                 $new_queue = sprintf("%03d", $queue->queue_no + 1);
@@ -153,7 +157,7 @@ class QueueController extends BaseController
 
             $sender = env('TWILIO_WHATSAPP_NUMBER');
             $recipient = '+60103600383';
-            $message = "Your turn is $new_queue";
+            $message = "Selamat datang! No. giliran anda adalah $new_queue. Sila tunggu sebentar.";
 
             // $message = 'Your appointment is coming up on July 21 at 3PM';
 
@@ -172,7 +176,8 @@ class QueueController extends BaseController
 
             $response = [
                 'status' => 'success',
-                'queue' => $new_queue
+                'queue' => $new_queue,
+                'current' => $current_queue->queue_no
             ];
 
             DB::commit();
