@@ -134,27 +134,42 @@ class QueueController extends BaseController
 
         DB::beginTransaction();
         try {
-            $queue = Queue::orderBy('id', 'desc')
-                            ->whereDate('created_at', Carbon::today())
-                            ->where('status', 'next')
-                            ->first();
+            $next_queue = Queue::whereDate('created_at', Carbon::today())
+                                ->where('status', 'next')
+                                ->first();
 
             $current_queue = Queue::whereDate('created_at', Carbon::today())
-                            ->where('status', 'current')
-                            ->first();
+                                    ->where('status', 'current')
+                                    ->first();
                             
             // generate queue no
-            if ($queue) {
-                $new_queue = sprintf("%03d", $queue->queue_no + 1);
+            if ($next_queue) {
+                $upcoming_queue = Queue::orderBy('id', 'desc')
+                                        ->whereDate('created_at', Carbon::today())
+                                        ->where('status', 'upcoming')
+                                        ->first();
+
+                if ($upcoming_queue) {
+                    $new_queue = sprintf("%03d", $upcoming_queue->queue_no + 1);
+                } else {
+                    $new_queue = sprintf("%03d", $next_queue->queue_no + 1);
+                }
+
+                $status = 'upcoming';
             } else {
-                $new_queue = '001';
+                $all_queue = Queue::orderBy('id', 'desc')
+                                    ->whereDate('created_at', Carbon::today())
+                                    ->first();
+
+                $new_queue = $all_queue ? sprintf("%03d", $all_queue->queue_no + 1) : '001';
+                $status = 'next';
             }
 
             // create queue
             Queue::create([
                 'tel_no' => $request->tel_no,
                 'queue_no' => $new_queue,
-                'status' => 'next'
+                'status' => $status
             ]);
 
             // send whatsapp
@@ -183,7 +198,7 @@ class QueueController extends BaseController
             $response = [
                 'status' => 'success',
                 'queue' => $new_queue,
-                'current' => $current_queue->queue_no
+                'current' => $current_queue ? $current_queue->queue_no : null
             ];
 
             DB::commit();

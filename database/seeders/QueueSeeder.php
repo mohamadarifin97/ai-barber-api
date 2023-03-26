@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Queue;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class QueueSeeder extends Seeder
 {
@@ -15,6 +16,7 @@ class QueueSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('queues')->truncate();
         for ($i = 1; $i <= 10; $i++) {
             Queue::create([
                 'tel_no' => strval(rand(000000000000, 999999999999)),
