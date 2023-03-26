@@ -157,7 +157,7 @@ class QueueController extends BaseController
 
             $sender = env('TWILIO_WHATSAPP_NUMBER');
             $recipient = '+60103600383';
-            $message = "Selamat datang! No. giliran anda adalah $new_queue. Sila tunggu sebentar.";
+            $message = "Selamat datang! No. giliran anda adalah *$new_queue*. Sila tunggu sebentar.";
 
             // $message = 'Your appointment is coming up on July 21 at 3PM';
 
