@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
 use App\Models\Queue;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
@@ -222,6 +223,32 @@ class QueueController extends BaseController
 
     public function storeStatus(Request $request)
     {
-        info('here');
+        $request->validate([
+            'status' => 'required|in:open,close'
+        ]);
+
+        DB::beginTransaction();
+        try {
+
+            Setting::where('item', 'store_status')->update(['status' => $request->status]);
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Ai Barber '.($request->status == 'open' ? 'buka!' : 'tutup!')
+            ];
+            
+            DB::commit();
+            return response()->json($response, 500);
+        } catch (Exception $e) {
+            Log::error($e);
+            DB::rollBack();
+
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+
+            return response()->json($response, 500);
+        }
     }
 }
