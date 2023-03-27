@@ -32,7 +32,7 @@ class AuthController extends BaseController
                     'status' => 'error',
                     'message' => $e->getMessage()
                 ];
-                return response()->json($response, 400);
+                return response()->json($response, 500);
             }
         } else { 
             return response()->json(['message' => 'Unauthorized'], 401);
