@@ -248,7 +248,7 @@ class QueueController extends BaseController
             ];
             
             DB::commit();
-            return response()->json($response, 500);
+            return response()->json($response, 200);
         } catch (Exception $e) {
             Log::error($e);
             DB::rollBack();
