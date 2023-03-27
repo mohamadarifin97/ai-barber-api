@@ -244,7 +244,7 @@ class QueueController extends BaseController
 
             $response = [
                 'status' => 'success',
-                'message' => 'Ai Barber '.($request->status == 'open' ? 'buka!' : 'tutup!')
+                'message' => 'Kemaskini berjaya!'
             ];
             
             DB::commit();
