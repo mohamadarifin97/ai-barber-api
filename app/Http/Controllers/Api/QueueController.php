@@ -45,7 +45,7 @@ class QueueController extends BaseController
                 'data' => $data
             ];
 
-            return response()->json($response);
+            return response()->json($response, 200);
             
         } catch (Exception $e) {
             Log::error($e);
@@ -55,7 +55,7 @@ class QueueController extends BaseController
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response);
+            return response()->json($response, 500);
         }
     }
 
@@ -75,7 +75,7 @@ class QueueController extends BaseController
             ];
 
             DB::commit();
-            return response()->json($response);
+            return response()->json($response, 200);
 
         } catch (Exception $e) { 
             DB::rollBack();
@@ -86,7 +86,7 @@ class QueueController extends BaseController
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response);
+            return response()->json($response, 500);
         }
     }
 
@@ -111,7 +111,7 @@ class QueueController extends BaseController
             ];
 
             DB::commit();
-            return response()->json($response);
+            return response()->json($response, 200);
 
         } catch (Exception $e) { 
             DB::rollBack();
@@ -122,7 +122,7 @@ class QueueController extends BaseController
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response);
+            return response()->json($response, 500);
         }
     }
 
@@ -202,7 +202,7 @@ class QueueController extends BaseController
             ];
 
             DB::commit();
-            return response()->json($response);
+            return response()->json($response, 200);
 
         } catch (Exception $e) {
             Log::error($e);
@@ -213,7 +213,7 @@ class QueueController extends BaseController
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response);
+            return response()->json($response, 500);
         }
     }
 }

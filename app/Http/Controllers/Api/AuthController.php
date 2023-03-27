@@ -23,7 +23,7 @@ class AuthController extends BaseController
                     'token' => $token,
                     'id' => Auth::user()->id,
                 ];
-                return response()->json($response);
+                return response()->json($response, 200);
 
             } catch (Exception $e) {
                 Log::error($e);
@@ -32,10 +32,10 @@ class AuthController extends BaseController
                     'status' => 'error',
                     'message' => $e->getMessage()
                 ];
-                return response()->json($response);
+                return response()->json($response, 400);
             }
         } else { 
-            return response()->json(['message' => 'Unauthorized']);
+            return response()->json(['message' => 'Unauthorized'], 401);
         } 
     }
 
@@ -43,7 +43,7 @@ class AuthController extends BaseController
     {
         try {
             User::find($request->id)->tokens()->delete();
-            return response()->json(['status' => 'success']);
+            return response()->json(['status' => 'success'], 200);
 
         } catch (Exception $e) {
             Log::error($e);
@@ -52,7 +52,7 @@ class AuthController extends BaseController
                 'status' => 'error',
                 'message' => $e->getMessage()
             ];
-            return response()->json($response);
+            return response()->json($response, 500);
         }
 
     }
