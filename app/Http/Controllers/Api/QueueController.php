@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 use Twilio\Rest\Client;
 
 class QueueController extends BaseController
@@ -33,16 +34,18 @@ class QueueController extends BaseController
                             ->groupBy('status')
                             ->toArray();
 
-            $data = [
-                'current' => array_key_exists('current', $queues) ? $queues['current'][0] : null,
-                'next' => array_key_exists('next', $queues) ? $queues['next'][0] : null,
-                'upcoming' => array_key_exists('upcoming', $queues) ? $queues['upcoming'] : null,
-            ];
+            // $data = [
+            //     'current' => array_key_exists('current', $queues) ? $queues['current'][0] : [],
+            //     'next' => array_key_exists('next', $queues) ? $queues['next'][0] : null,
+            //     'upcoming' => array_key_exists('upcoming', $queues) ? $queues['upcoming'] : null,
+            // ];
 
             // id, queue, status
             $response = [
                 'status' => 'success',
-                'data' => $data
+                'current' => array_key_exists('current', $queues) ? $queues['current'][0] : (object) null,
+                'next' => array_key_exists('next', $queues) ? $queues['next'][0] : (object) null,
+                'upcoming' => array_key_exists('upcoming', $queues) ? $queues['upcoming'] : (object) null,
             ];
 
             return response()->json($response, 200);
@@ -180,7 +183,7 @@ class QueueController extends BaseController
             $recipient = '+60103600383';
             $message = "Selamat datang! No. giliran anda adalah *$new_queue*. Sila tunggu sebentar.";
 
-            // $message = 'Your appointment is coming up on July 21 at 3PM';
+            $message = 'Your appointment is coming up on July 21 at 3PM';
 
             $twilio = new Client($sid, $token);
             $message = $twilio->messages
