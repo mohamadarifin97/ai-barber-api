@@ -132,6 +132,16 @@ class QueueController extends BaseController
 
     public function getQueue(Request $request)
     {
+        $store_status = Setting::where('item', 'store_status')->first()->status;
+        // if store is close
+        if ($store_status == 'close') {
+            $response = [
+                'status' => 'error',
+                'message' => 'Ai Barber tutup!'
+            ];
+            return response()->json($response, 403);
+        }
+
         $request->validate([
             'tel_no' => 'required|digits_between:10,11'
         ]);
@@ -182,7 +192,7 @@ class QueueController extends BaseController
 
             $sender = env('TWILIO_WHATSAPP_NUMBER');
             $recipient = '+60103600383';
-            $message = "Selamat datang! No. giliran anda adalah *$new_queue*. Sila tunggu sebentar.";
+            // $message = "Selamat datang! No. giliran anda adalah *$new_queue*. Sila tunggu sebentar.";
 
             $message = 'Your appointment is coming up on July 21 at 3PM';
 
