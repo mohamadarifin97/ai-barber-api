@@ -231,7 +231,7 @@ class QueueController extends BaseController
         }
     }
 
-    public function storeStatus(Request $request)
+    public function updateStoreStatus(Request $request)
     {
         $request->validate([
             'status' => 'required|in:open,close'
