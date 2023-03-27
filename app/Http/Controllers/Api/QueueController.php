@@ -219,4 +219,9 @@ class QueueController extends BaseController
             return response()->json($response, 500);
         }
     }
+
+    public function storeStatus(Request $request)
+    {
+        info('here');
+    }
 }
