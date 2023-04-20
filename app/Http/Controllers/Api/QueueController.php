@@ -261,4 +261,27 @@ class QueueController extends BaseController
             return response()->json($response, 500);
         }
     }
+
+    public function getStoreStatus(Request $request)
+    {
+        try {
+            $setting = Setting::where('item', 'store_status')->first();
+
+            $response = [
+                'status' => 'success',
+                'store_status' => $setting->status
+            ];
+            
+            return response()->json($response, 200);
+        } catch (Exception $e) {
+            Log::error($e);
+
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
 }

@@ -28,4 +28,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/queue-complete', [QueueController::class, 'queueComplete']);
     Route::post('/admin/update-status', [QueueController::class, 'updateStatus']);
     Route::post('/admin/update-store-status', [QueueController::class, 'updateStoreStatus']);
+    Route::get('/admin/get-store-status', [QueueController::class, 'getStoreStatus']);
 });
